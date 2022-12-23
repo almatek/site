@@ -19,6 +19,7 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
+
       - name: Cache node modules
         uses: actions/cache@v3
         with:
@@ -30,15 +31,49 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
+
       - name: Install dependencies
         run: yarn
+
       - name: Lint
         run: yarn lint
-      - name: Prettier
-        run: yarn format:check
+
       - name: Build
         run: yarn build
+
       - name: Unit test
         run: yarn test:unit
+
       - name: E2E test
         run: npx playwright install && yarn test
+
+  ecr:
+    runs-on: ubuntu-latest
+    name: Docker build and upload to AWS ECR
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: us-east-1
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: almatek
+          IMAGE_TAG: latest #${{ github.sha }}
+        run: |
+          # Build a docker container and
+          # push it to ECR so that it can
+          # be deployed to ECS.
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
