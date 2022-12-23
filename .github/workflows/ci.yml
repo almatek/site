@@ -7,6 +7,9 @@ on:
   pull_request:
     branches:
       - main'
+permissions:
+  id-token: write
+  contents: read
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -38,7 +41,7 @@ jobs:
       - name: E2E test
         run: npx playwright install && yarn test
   ecr:
-    #needs: build
+    needs: build
     runs-on: ubuntu-latest
     name: Docker build and upload to AWS ECR
     env:
