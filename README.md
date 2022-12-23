@@ -2,7 +2,7 @@
 
 This is the Almatek company website powered by [`SvelteKit`](https://kit.svelte.dev/).
 
-## Developing
+## Running
 
 This project uses yarn for dependency resolution. Once you've installed dependencies with `yarn`, start a development server:
 
@@ -21,4 +21,24 @@ To create a production version of your app:
 yarn build
 ```
 
-You can preview the production build with `yarn preview`.
+## Testing
+
+This project uses playwright for e2e testing. 
+
+If running for the first time first:
+
+```bash
+npx playwright install
+```
+
+To run the tests:
+
+```bash
+yarn test
+```
+
+You can preview the production build with:
+
+```bash
+yarn preview
+```
