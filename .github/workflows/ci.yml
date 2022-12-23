@@ -1,5 +1,4 @@
 name: Continuous integration
-
 on:
   workflow_dispatch:
   push:
@@ -8,18 +7,18 @@ on:
   pull_request:
     branches:
       - main'
-
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read  # This is required for actions/checkout
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node: ['>=19.0.0']
-
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
-
       - name: Cache node modules
         uses: actions/cache@v3
         with:
@@ -31,40 +30,34 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-
       - name: Install dependencies
         run: yarn
-
       - name: Lint
         run: yarn lint
-
       - name: Build
         run: yarn build
-
       - name: Unit test
         run: yarn test:unit
-
       - name: E2E test
         run: npx playwright install && yarn test
-
   ecr:
-    needs: build
+    #needs: build
     runs-on: ubuntu-latest
     name: Docker build and upload to AWS ECR
+    env:
+      AWS_REGION: 'us-east-1'
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-region: us-east-1
+          aws-region: ${{ env.AWS_REGION }}
           role-to-assume: ${{ secrets.AWS_ROLE }}
-
+          role-session-name: samplerolesession
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         env:
