@@ -48,6 +48,7 @@ jobs:
         run: npx playwright install && yarn test
 
   ecr:
+    needs: build
     runs-on: ubuntu-latest
     name: Docker build and upload to AWS ECR
     steps:
