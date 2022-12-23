@@ -12,7 +12,7 @@ env:
   ECR_REPOSITORY: almatek
   ECS_SERVICE: site
   ECS_CLUSTER: almatek
-  ECS_TASK_DEFINITION: .aws/task-definition.json
+  ECS_TASK_DEFINITION: ./.aws/task-definition.json
   CONTAINER_NAME: almatek
 permissions:
   id-token: write
