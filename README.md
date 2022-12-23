@@ -23,7 +23,7 @@ yarn build
 
 ## Testing
 
-This project uses playwright for e2e testing. 
+This project uses playwright for e2e testing.
 
 If running for the first time first:
 
