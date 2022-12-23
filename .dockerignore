@@ -1,6 +1,7 @@
 .aws
 .git
 .github
+.husky
 .svelte-kit
 .vscode
 node_modules
