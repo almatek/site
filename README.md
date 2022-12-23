@@ -2,6 +2,8 @@
 
 This is the Almatek company website powered by [`SvelteKit`](https://kit.svelte.dev/).
 
+[![Continuous integration](https://github.com/almatek/site/actions/workflows/ci.yml/badge.svg)](https://github.com/almatek/site/actions/workflows/ci.yml)
+
 ## Running
 
 This project uses yarn for dependency resolution. Once you've installed dependencies with `yarn`, start a development server:
