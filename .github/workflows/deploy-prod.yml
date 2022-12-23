@@ -25,8 +25,12 @@
 #    and best practices on handling the access key credentials.
 
 name: Deploy to Amazon ECS
+
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
 env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: almatek
@@ -39,6 +43,7 @@ permissions:
   contents: read
 jobs:
   deploy:
+    environment: production
     runs-on: ubuntu-latest
     steps:
       - name: Configure AWS credentials
