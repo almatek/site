@@ -1,0 +1,16 @@
+.git
+.editorconfig
+.eslint*
+.prettier*
+.git*
+.vscode
+.npmrc
+.nvmrc
+node_modules
+README.md
+LICENSE
+Dockerfile*
+docker-compose.yml
+public
+.svelte-kit
+build
