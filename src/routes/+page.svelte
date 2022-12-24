@@ -1,2 +1,1 @@
-<h1>Almatek Software Solutions</h1>
-<a href="mailto: ama@almatek.io">Contact</a>
+<h1 class="text-3xl font-bold underline">Almatek Software Solutions</h1>
